@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let声明变量
+        // 1、没有变量提升
+        let a;
+        let b,c,d;
+        let e = 100;
+        let f = 521, g = 'i love you', h = [];
+
+
+        // 2、块级作用域 全局 函数 eval
+        {
+            let girl ='zyq';
+        }
+        console.log(girl);
+
+
+        // 3、变量不能重复声明
+        let star = '罗志祥';
+        // let star = '小猪';
+
+        // const 声明常量一旦被声明无法修改
+        const max = 30;
+        // max = 40; error
+        console.log(max);
+
+
+        
+        const person = {
+            name:"小马哥"
+        }
+        // 不可以修改对象,但可以修改属性
+        person.name = "alex"; // ok
+
+        // person = {
+        //     age:20
+        // } // error
+
+        console.log(person.name)
+
+
+        // 避免声明变量提升问题
+        var arr = [];
+            
+        // 这里 var i; 在外边提升了
+        for (var i = 0; i < 10; i++) {
+            arr[i] = function() {
+                return i;
+            }
+        }
+        console.log(arr[5]()); // i 为10;
+
+        // 解决该问题
+        for (let i = 0; i < 10; i++) {
+            arr[i] = function() {
+                return i;
+            }
+        }
+
+        console.log(arr[5]()); // i 为5;
+
+
+        // 不会污染全局变量
+        let RegExp = 10;
+        console.log(RegExp);
+        console.log(window.RegExp);
+        
+        // 建议：在默认情况下用const，而只有在你知道变量草需要被修改的情况使用Let
+    </script>
+</body>
+</html>
