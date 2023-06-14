@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 1. 带参数默认值的函数
+        // es5写法
+        // function add(a, b) {
+        //     a = a || 10;
+        //     b = b || 20;
+            
+        //     return a + b;
+        // }
+    
+        // //es6
+        // function add(a = 10, b = 20) {
+        //     return a + b;
+        // }
+    
+        // console.log(add(30));
+    
+    
+        // 2. 默认的表达式 也可以是 一个函数
+        // function add(a, b = getVal(5)) {
+        //     return a + b;
+        // }
+    
+        // function getVal(val) {
+        //     return 10 + val;
+        // }
+    
+        // console.log(add(10));
+        
+        // ES5 写法
+        // function pick(obj) {
+        //     let res = Object.create(null);
+        //     for (let i = 1; i < arguments.length; i++) {
+        //         // console.log(arguments);
+        //         res[arguments[i]] = obj[arguments[i]];
+        //     }
+        // }
+
+        // let book = {
+        //     title: "es6",
+        //     author: '小马哥',
+        //     year: 2019
+        // }
+
+        // let bookData = pick(book, 'author','year');
+        // console.log(bookData);
+
+        // es6 剩余参数：由三个点。。。和一个紧跟着的具名参数指定 。。。keys
+        // function pick(obj,...keys) {
+        //     // ...keys解决 arguments问题
+        //     // console.log(keys);
+        //     let res = Object.craet(null);
+
+        //     for (let i = 0; i < keys.length; i++) {
+        //         res[keys[i]] = obj[keys[i]];
+        //     }
+
+        //     return res;
+        // }
+
+        // let book = {
+        //     title: "es6",
+        //     author: '小马哥',
+        //     year: 2019
+        // }
+
+        // let bookData = pick(book, 'author','year');
+        // console.log(bookData);
+
+
+        // function checkArgs(...args) {
+        //     console.log(args); 
+        //     console.log(arguments);
+        // } 
+
+        // checkArgs('a','b','c')
+
+        // // 4.扩展运算符...
+        // // 剩余运算符： 把多个独立的合并到一个数组中
+        // // 扩展运算法：将一个数组分罰，并将各个项作为分离的参数传给函数
+
+        // const maxNum = Math.max(20, 30);
+        // console.log(maxNum);
+
+        // // 处理数组中的最大值，使用apply
+
+        // const arr = [10,20,30,50,90,100];
+        // console.log(Math.max.apply(null, arr));
+
+
+        // // es6 扩转运算符
+        // console.log(Math.max(...arr));
+
+
+        // es6的箭头函数
+        // 使用=> 来定义 取代 function(){} 等于 ()=>{}
+
+        // let add = function(a, b){
+        //     return a + b;
+        // }
+
+        // let add = (a, b)=>{
+        //     return a + b;
+        // }
+
+        // console.log(add(10,20));
+
+
+        // let add = val => {
+        //     return val + 5;
+        // }
+
+        // let add = val => (val + 5); 
+        // console.log(add(10));
+
+
+        // let fn = ()=> 'hello world' + 123;
+        // console.log(fn());
+
+        // let get = id => ({id:id, name:"小马哥"});
+        // let obj = get(1);
+        // console.log(obj);
+
+        // 闭包函数
+        
+        // let fn = (function() {
+        //     return function() {
+        //         console.log('hello es6');
+        //     }
+        // })();
+        // // 是立即执行函数所以带括号
+
+        // fn();
+        
+
+        // es6
+        // let fn = (() => {
+        //     return ()=> {
+        //         console.log('hello es6');
+        //     }
+        // })();
+
+        // fn();
+
+
+
+        // es6 没有this绑定
+        // ES5中的this指向，取决于调用该函数的上下文对象
+        // let PageHandle = {
+        //     id:123,
+        //     init: function () {
+        //         document.addEventListener('click', function(event) {
+        //             console.log(this); 
+        //               // 回调函数this指向的是事件源, 这里指向的就是上面的document
+        //             this.doSomeThings(event.type); // this.doSome Things is not a function
+        //         }, false)
+        //     },
+
+        //     doSomeThings: function(type) {
+        //         console.log(`时间类型:${type}, 当前id:${this.id}`);
+        //     }
+
+        // };
+
+
+        // 修改上面， 防止出错
+        let PageHandle = {
+            id:123,
+            init: function () {
+               
+                document.addEventListener('click', function(event) {
+                    // console.log(this); 
+                    this.doSomeThings(event.type); // this.doSome Things is not a function
+                    // 改变内部指向
+                    //  bind里面的this 指向的是 PageHandle
+                }.bind(this), false)
+            },
+
+            doSomeThings: function(type) {
+                console.log(`时间类型:${type}, 当前id:${this.id}`);
+            }
+
+        };
+
+        PageHandle.init();
+
+        // es6 使用 箭头函数 避免 this 指代为 document 的情况
+        // let PageHandle = {
+        //     id:123,
+        //     init: function () {
+        //         document.addEventListener('click', (event)=> {
+        //             console.log(this); 
+        //             this.doSomeThings(event.type); // this.doSome Things is not a function
+        //         })
+        //     },
+
+        //     doSomeThings: function(type) {
+        //         console.log(`时间类型:${type}, 当前id:${this.id}`);
+        //     }
+
+        // };
+
+        // PageHandle.init();
+
+        //使用 箭头函数的注意事项
+        // 1：使用箭头函数內部没有arguments
+
+        // let getVal = (a, b) => {
+        //     // console.log(arguments); // error
+        //     return a + b;
+        // }
+
+        // console.log(getVal(1, 3));
+
+        // // 2:  箭头函数不能使用new关键字来实例化对象
+
+        // let Person = ()=>{
+        // };
+        // console.log(Person);
+        // function函数也是一个对象，但是箭头函数不是一个对象，它其实就是一个语法糖
+
+    </script>
+    
+</body>
+</html>
